@@ -39,6 +39,15 @@ public class Player : MonoBehaviour
 
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("hit something!");
+        if (collision.gameObject.name == "Enemy")
+        {
+            transform.position = spawn_pos;
+        }
+    }
+
     void UpdateCamera()
     {
         float x = Mathf.Lerp(camera.position.x, transform.position.x, 0.1f);
