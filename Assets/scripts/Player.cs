@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     new Transform camera;
 
     [SerializeField]
+    Transform sprite;
+
+    [SerializeField]
     float movement_speed = 15f;
 
     Vector3 spawn_pos;
@@ -36,7 +39,12 @@ public class Player : MonoBehaviour
         if (ud_movement != 0)
             rb.linearVelocityY = Mathf.Lerp(rb.linearVelocityY, movement_speed * ud_movement, 0.02f);
 
-
+        Vector2 norm_dir = rb.linearVelocity.normalized;
+        if (norm_dir.magnitude > 0)
+        {
+            float angle = Mathf.Atan2(-norm_dir.x, norm_dir.y) * Mathf.Rad2Deg;
+            sprite.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
     }
 
     void UpdateCamera()
