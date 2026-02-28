@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     new Transform camera;
 
     [SerializeField]
-    Transform sprite;
+    SpriteRenderer sprite;
 
     [SerializeField]
     float movement_speed = 15f;
@@ -42,26 +42,26 @@ public class Player : MonoBehaviour
         if (ud_movement != 0)
             rb.linearVelocityY = Mathf.Lerp(rb.linearVelocityY, movement_speed * ud_movement, 0.02f);
 
-        Vector2 norm_dir = rb.linearVelocity.normalized;
-        if (norm_dir.magnitude > 0)
+        if (rb.linearVelocityX != 0)
         {
-            float angle = Mathf.Atan2(-norm_dir.x, norm_dir.y) * Mathf.Rad2Deg;
-            sprite.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            sprite.flipX = rb.linearVelocityX > 0;
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("hit something!");
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             Time.timeScale = 1f;
             //TODO: add death animation / YOU DIED ui if time allows
         }
-        else if (collision.gameObject.TryGetComponent<Crystal>(out Crystal crystal))
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<Crystal>(out Crystal crystal))
         {
-            Debug.Log("Got a crystal");
             Destroy(crystal.gameObject);
             score += 1;
         }
