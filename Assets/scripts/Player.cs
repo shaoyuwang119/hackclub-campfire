@@ -16,12 +16,15 @@ public class Player : MonoBehaviour
     float movement_speed = 15f;
 
     int score;
+    const float min_dist = 3f;
 
     Vector3 spawn_pos;
+    Vector3 previous_tick_pos;
 
     void Start()
     {
         spawn_pos = transform.position;
+        previous_tick_pos = spawn_pos;
     }
 
     void FixedUpdate()
@@ -46,6 +49,15 @@ public class Player : MonoBehaviour
         {
             sprite.flipX = rb.linearVelocityX > 0;
         }
+
+        float dist_base = Vector3.Distance(Base.singleton.transform.position, transform.position);
+        float prev_dist_base = Vector3.Distance(Base.singleton.transform.position, previous_tick_pos);
+
+        if (dist_base <= 3 && prev_dist_base > 3)
+        {
+            Debug.Log("Close to base!");
+        }
+        previous_tick_pos = transform.position;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
