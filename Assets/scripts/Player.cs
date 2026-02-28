@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         spawn_pos = transform.position;
+        camera.position = new Vector3(transform.position.x, transform.position.y, camera.position.z);
     }
 
     void FixedUpdate()
