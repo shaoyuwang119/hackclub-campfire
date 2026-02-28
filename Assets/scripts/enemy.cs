@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     {
         origin = transform.position;
         actual_target = target.position;
-        Debug.Log($"{origin} {actual_target}");
     }
 
     // Update is called once per frame
