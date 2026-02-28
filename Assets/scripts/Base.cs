@@ -13,6 +13,10 @@ public class Base : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // make live reload shut up
+        if (singleton != this)
+        {
+            singleton = this;
+        }
     }
 }
