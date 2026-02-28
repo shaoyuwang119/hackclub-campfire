@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     float movement_speed = 15f;
+
+    int score;
 
     Vector3 spawn_pos;
 
@@ -42,9 +45,19 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("hit something!");
-        if (collision.gameObject.name == "Enemy")
+        void OnCollisionEnter2D(Collision2D collision)
         {
-            transform.position = spawn_pos;
+            if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                Time.timeScale = 1f;
+                //TODO: add death animation / YOU DIED ui if time allows
+            } else if (collision.gameObject.TryGetComponent<Crystal>(out Crystal crystal))
+            {
+                Debug.Log("Got a crystal");
+                Destroy(crystal);
+                score += 1;
+            }
         }
     }
 
