@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     float movement_speed = 15f;
+
+    int score;
 
     Vector3 spawn_pos;
 
@@ -44,6 +47,23 @@ public class Player : MonoBehaviour
         {
             float angle = Mathf.Atan2(-norm_dir.x, norm_dir.y) * Mathf.Rad2Deg;
             sprite.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("hit something!");
+        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Time.timeScale = 1f;
+            //TODO: add death animation / YOU DIED ui if time allows
+        }
+        else if (collision.gameObject.TryGetComponent<Crystal>(out Crystal crystal))
+        {
+            Debug.Log("Got a crystal");
+            Destroy(crystal.gameObject);
+            score += 1;
         }
     }
 

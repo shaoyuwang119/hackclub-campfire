@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     Vector3 origin;
     Vector3 target;
