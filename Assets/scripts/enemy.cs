@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     Transform target;
 
+    [SerializeField]
+    SpriteRenderer sprite;
+
     float t = 0f;
     float speed = 0.3f;
 
@@ -25,6 +28,9 @@ public class Enemy : MonoBehaviour
         float y = Mathf.Lerp(origin.y, actual_target.y, t);
         t += Time.fixedDeltaTime * speed;
         transform.position = new Vector3(x, y, 0);
+
+        bool dir = origin.x > actual_target.x;
+        sprite.flipX = dir;
 
         if (t >= 1f)
         {
