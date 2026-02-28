@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     {
         spawn_pos = transform.position;
         previous_tick_pos = spawn_pos;
+        camera.position = new Vector3(transform.position.x, transform.position.y, camera.position.z);
     }
 
     void FixedUpdate()
