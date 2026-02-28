@@ -93,3 +93,6 @@ memorypack_generated/
 # Rider
 .idea/**
 *.sln.iml
+/Assets/_Recovery
+.vs/hackclub-campfire/v17/DocumentLayout.json
+.vs/hackclub-campfire/v17/DocumentLayout.json
