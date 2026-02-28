@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
 
         if (ud_movement != 0)
             rb.linearVelocityY = Mathf.Lerp(rb.linearVelocityY, movement_speed * ud_movement, 0.02f);
+
+
     }
 
     void UpdateCamera()
