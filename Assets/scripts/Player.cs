@@ -11,6 +11,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     float movement_speed = 15f;
 
+    Vector3 spawn_pos;
+
+    void Start()
+    {
+        spawn_pos = transform.position;
+    }
+
     void FixedUpdate()
     {
         UpdatePosition();
