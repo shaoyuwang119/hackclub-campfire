@@ -5,17 +5,36 @@ public class Player : MonoBehaviour
     [SerializeField]
     Rigidbody2D rb;
 
-    void Update()
+    [SerializeField]
+    new Transform camera;
+
+    [SerializeField]
+    float movement_speed = 15f;
+
+    void FixedUpdate()
+    {
+        UpdatePosition();
+        UpdateCamera();
+    }
+
+    void UpdatePosition()
     {
         int lr_movement = bti(Input.GetKey(KeyCode.D)) - bti(Input.GetKey(KeyCode.A));
 
         if (lr_movement != 0)
-            rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, 10f * lr_movement, 0.02f);
+            rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, movement_speed * lr_movement, 0.02f);
 
         int ud_movement = bti(Input.GetKey(KeyCode.W)) - bti(Input.GetKey(KeyCode.S));
 
         if (ud_movement != 0)
-            rb.linearVelocityY = Mathf.Lerp(rb.linearVelocityY, 10f * ud_movement, 0.02f);
+            rb.linearVelocityY = Mathf.Lerp(rb.linearVelocityY, movement_speed * ud_movement, 0.02f);
+    }
+
+    void UpdateCamera()
+    {
+        float x = Mathf.Lerp(camera.position.x, transform.position.x, 0.1f);
+        float y = Mathf.Lerp(camera.position.y, transform.position.y, 0.1f);
+        camera.position = new Vector3(x, y, camera.position.z);
     }
 
     int bti(bool b)
