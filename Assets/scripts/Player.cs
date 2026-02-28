@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -15,16 +17,28 @@ public class Player : MonoBehaviour
     [SerializeField]
     float movement_speed = 15f;
 
-    int score;
-    const float min_dist = 3f;
+    [SerializeField]
+    TMP_Text scoreDisplay;
+
+    [SerializeField]
+    TMP_Text crystalsDisplay;
+
+    int crystals;
+    int crystals_left;
+    int crystals_base;
 
     Vector3 spawn_pos;
-    Vector3 previous_tick_pos;
+
+    List<GameObject> crystals_stored = new List<GameObject>();
+
+    const int CRYSTALS_TOTAL = 5;
 
     void Start()
     {
+        crystals = 0;
+        crystals_base = 0;
+        crystals_left = CRYSTALS_TOTAL;
         spawn_pos = transform.position;
-        previous_tick_pos = spawn_pos;
         camera.position = new Vector3(transform.position.x, transform.position.y, camera.position.z);
     }
 
@@ -32,6 +46,7 @@ public class Player : MonoBehaviour
     {
         UpdatePosition();
         UpdateCamera();
+        UpdateDisplay();
     }
 
     void UpdatePosition()
@@ -50,24 +65,22 @@ public class Player : MonoBehaviour
         {
             sprite.flipX = rb.linearVelocityX > 0;
         }
-
-        float dist_base = Vector3.Distance(Base.singleton.transform.position, transform.position);
-        float prev_dist_base = Vector3.Distance(Base.singleton.transform.position, previous_tick_pos);
-
-        if (dist_base <= 3 && prev_dist_base > 3)
-        {
-            Debug.Log("Close to base!");
-        }
-        previous_tick_pos = transform.position;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            Time.timeScale = 1f;
-            //TODO: add death animation / YOU DIED ui if time allows
+            transform.position = spawn_pos;
+            crystals = 0;
+
+            foreach (GameObject crystal_obj in crystals_stored)
+            {
+                crystal_obj.SetActive(true);
+            }
+            crystals_stored = new List<GameObject>();
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //Time.timeScale = 1f;
         }
     }
 
@@ -75,8 +88,14 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Crystal>(out Crystal crystal))
         {
-            Destroy(crystal.gameObject);
-            score += 1;
+            crystals_stored.Add(crystal.gameObject);
+            crystal.gameObject.SetActive(false);
+            crystals += 1;
+        }
+        else if (collision.gameObject.TryGetComponent<BaseZone>(out BaseZone basezone))
+        {
+            Debug.Log("Close to base!");
+            UpdateBase();
         }
     }
 
@@ -85,6 +104,20 @@ public class Player : MonoBehaviour
         float x = Mathf.Lerp(camera.position.x, transform.position.x, 0.1f);
         float y = Mathf.Lerp(camera.position.y, transform.position.y, 0.1f);
         camera.position = new Vector3(x, y, camera.position.z);
+    }
+
+    void UpdateDisplay()
+    {
+        crystalsDisplay.text = $"{crystals} / {crystals_left}";
+        scoreDisplay.text = $"{crystals_base}";
+    }
+
+    void UpdateBase()
+    {
+        crystals_base += crystals;
+        crystals_left = CRYSTALS_TOTAL - crystals_base;
+        crystals = 0;
+        crystals_stored = new List<GameObject>();
     }
 
     int bti(bool b)
