@@ -136,6 +136,7 @@ public class Player : MonoBehaviour
 
     void UpdateDisplay()
     {
+        score_display.text = $"{crystals_base}";
         crystals_display.text = $"{crystals} / {crystals_left}";
     }
 
@@ -145,6 +146,14 @@ public class Player : MonoBehaviour
         crystals_left = Crystal.crystal_count - crystals_base;
         crystals = 0;
         crystals_stored = new List<GameObject>();
+
+        if (crystals_left == 0)
+            Win();
+    }
+
+    void Win()
+    {
+
     }
 
     void Die()
