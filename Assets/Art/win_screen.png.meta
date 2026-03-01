@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: b3f149f9cf3a7ff46a6876fcf00ca2a7
+guid: 50e17cd590635dd09a74c74368bbf4bb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6853262313996492887
-    second: Kelp_0
-  - first:
-      213: 9094890249646168998
-    second: Kelp_1
+      213: 356431026072087101
+    second: win_screen_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Kelp_0
+      name: win_screen_0
       rect:
         serializedVersion: 2
-        x: 221
-        y: 537
-        width: 86
-        height: 448
+        x: 0
+        y: 0
+        width: 1000
+        height: 700
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9afdaad4c3254e0a0800000000000000
-      internalID: -6853262313996492887
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Kelp_1
-      rect:
-        serializedVersion: 2
-        x: 227
-        y: 27
-        width: 68
-        height: 440
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6abd259ce7a873e70800000000000000
-      internalID: 9094890249646168998
+      spriteID: d3a64f7312c42f400800000000000000
+      internalID: 356431026072087101
       vertices: []
       indices: 
       edges: []
@@ -173,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Kelp_0: -6853262313996492887
-      Kelp_1: 9094890249646168998
+      win_screen_0: 356431026072087101
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

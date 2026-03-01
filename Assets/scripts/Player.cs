@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     GameObject pause_screen;
 
     [SerializeField]
+    GameObject win_screen;
+
+    [SerializeField]
     string main_menu_name = "main menu";
 
     public GameObject death_screen;
@@ -54,7 +57,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!death_screen.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        if (!death_screen.activeSelf && !win_screen.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         {
             PauseToggle();
         }
@@ -167,7 +170,8 @@ public class Player : MonoBehaviour
 
     void Win()
     {
-
+        win_screen.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     void Die()
