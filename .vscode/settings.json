@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "under_surface.slnx"
+    "dotnet.defaultSolution": "hackclub-campfire.slnx"
 }
