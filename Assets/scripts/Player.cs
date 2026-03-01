@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!death_screen.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         {
             PauseToggle();
         }
@@ -174,6 +174,12 @@ public class Player : MonoBehaviour
     {
         death_screen.SetActive(true);
         Time.timeScale = 0f;
+    }
+
+    public void Respawn()
+    {
+        death_screen.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     int bti(bool b)
