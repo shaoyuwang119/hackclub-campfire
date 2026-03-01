@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    Vector3 origin;
-    Vector3 actual_target;
+    protected Vector3 origin;
+    protected Vector3 actual_target;
 
     [SerializeField]
-    Transform target;
+    protected Transform target;
 
     [SerializeField]
-    SpriteRenderer sprite;
+    protected SpriteRenderer sprite;
 
-    float t = 0f;
-    float speed = 0.3f;
+    protected float t = 0f;
+    protected float speed = 0.3f;
+    protected float z = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,12 +23,12 @@ public class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         float x = Mathf.Lerp(origin.x, actual_target.x, t);
         float y = Mathf.Lerp(origin.y, actual_target.y, t);
         t += Time.fixedDeltaTime * speed;
-        transform.position = new Vector3(x, y, 0);
+        transform.position = new Vector3(x, y, z);
 
         bool dir = origin.x > actual_target.x;
         sprite.flipX = dir;
@@ -39,6 +40,5 @@ public class Enemy : MonoBehaviour
             actual_target = temp;
             t = 0;
         }
-
     }
 }
