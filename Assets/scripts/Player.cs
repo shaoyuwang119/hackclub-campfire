@@ -18,10 +18,13 @@ public class Player : MonoBehaviour
     float movement_speed = 15f;
 
     [SerializeField]
-    TMP_Text scoreDisplay;
+    TMP_Text score_display;
 
     [SerializeField]
-    TMP_Text crystalsDisplay;
+    TMP_Text crystals_display;
+
+    public GameObject death_screen;
+    public GameObject bubble;
 
     int crystals;
     int crystals_left;
@@ -30,6 +33,9 @@ public class Player : MonoBehaviour
     Vector3 spawn_pos;
 
     List<GameObject> crystals_stored = new List<GameObject>();
+
+    float previousWave;
+    float bubble_timer;
 
     void Start()
     {
@@ -52,26 +58,37 @@ public class Player : MonoBehaviour
         int lr_movement = bti(Input.GetKey(KeyCode.D)) - bti(Input.GetKey(KeyCode.A));
 
         if (lr_movement != 0)
+        {
             rb.linearVelocityX = Mathf.Lerp(rb.linearVelocityX, movement_speed * lr_movement, 0.02f);
+            sprite.flipX = lr_movement > 0 ? true : false;
+        }
 
         int ud_movement = bti(Input.GetKey(KeyCode.W)) - bti(Input.GetKey(KeyCode.S));
 
         if (ud_movement != 0)
             rb.linearVelocityY = Mathf.Lerp(rb.linearVelocityY, movement_speed * ud_movement, 0.02f);
 
-        if (rb.linearVelocityX != 0)
+        if (Mathf.Abs(rb.linearVelocityX) > 1f || Mathf.Abs(rb.linearVelocityY) > 1f)
         {
-            bool turning = Mathf.Abs(rb.linearVelocityX) != movement_speed;
-            if (turning)
+            if (bubble_timer > 0.5f)
             {
-
+                Vector3 bubble_pos = gameObject.transform.position;
+                bubble_pos.x += sprite.flipX ? -1 : 1;
+                Instantiate(bubble, bubble_pos, Quaternion.identity);
+                bubble_timer = 0;
             }
-            else
-            {
-
-            }
-            sprite.flipX = rb.linearVelocityX > 0;
         }
+        bubble_timer += Time.fixedDeltaTime;
+
+        float currentWave = Mathf.Sin(Time.time) * 0.4f;
+        float delta = currentWave - previousWave;
+        // the below code bobs the sprite image instead of the whole sprite object
+        //Vector3 pos = sprite.transform.position;
+        //pos.y += delta;
+        //sprite.transform.position = pos;
+
+        rb.linearVelocityY += delta;
+        previousWave = currentWave;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -90,6 +107,8 @@ public class Player : MonoBehaviour
             crystals_stored = new List<GameObject>();
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             //Time.timeScale = 1f;
+
+            Die();
         }
     }
 
@@ -117,8 +136,7 @@ public class Player : MonoBehaviour
 
     void UpdateDisplay()
     {
-        crystalsDisplay.text = $"{crystals} / {crystals_left}";
-        scoreDisplay.text = $"{crystals_base}";
+        crystals_display.text = $"{crystals} / {crystals_left}";
     }
 
     void UpdateBase()
@@ -127,6 +145,12 @@ public class Player : MonoBehaviour
         crystals_left = Crystal.crystal_count - crystals_base;
         crystals = 0;
         crystals_stored = new List<GameObject>();
+    }
+
+    void Die()
+    {
+        death_screen.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     int bti(bool b)
