@@ -23,6 +23,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     TMP_Text crystals_display;
 
+    [SerializeField]
+    GameObject pause_screen;
+
+    [SerializeField]
+    string main_menu_name = "main menu";
+
     public GameObject death_screen;
     public GameObject bubble;
 
@@ -44,6 +50,14 @@ public class Player : MonoBehaviour
         crystals_left = Crystal.crystal_count;
         spawn_pos = transform.position;
         camera.position = new Vector3(transform.position.x, transform.position.y, camera.position.z);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseToggle();
+        }
     }
 
     void FixedUpdate()
@@ -165,5 +179,24 @@ public class Player : MonoBehaviour
     int bti(bool b)
     {
         return b ? 1 : 0;
+    }
+
+    public void Unpause()
+    {
+        pause_screen.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene(main_menu_name);
+    }
+
+    void PauseToggle()
+    {
+        bool paused = pause_screen.activeSelf;
+
+        pause_screen.SetActive(!paused);
+        Time.timeScale = paused ? 1f : 0f;
     }
 }
