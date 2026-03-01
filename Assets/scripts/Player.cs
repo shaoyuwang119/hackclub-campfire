@@ -31,13 +31,11 @@ public class Player : MonoBehaviour
 
     List<GameObject> crystals_stored = new List<GameObject>();
 
-    const int CRYSTALS_TOTAL = 5;
-
     void Start()
     {
         crystals = 0;
         crystals_base = 0;
-        crystals_left = CRYSTALS_TOTAL;
+        crystals_left = Crystal.crystal_count;
         spawn_pos = transform.position;
         camera.position = new Vector3(transform.position.x, transform.position.y, camera.position.z);
     }
@@ -63,6 +61,15 @@ public class Player : MonoBehaviour
 
         if (rb.linearVelocityX != 0)
         {
+            bool turning = Mathf.Abs(rb.linearVelocityX) != movement_speed;
+            if (turning)
+            {
+
+            }
+            else
+            {
+
+            }
             sprite.flipX = rb.linearVelocityX > 0;
         }
     }
@@ -72,7 +79,9 @@ public class Player : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             transform.position = spawn_pos;
+            camera.transform.position = new Vector3(spawn_pos.x, spawn_pos.y, camera.transform.position.z);
             crystals = 0;
+            Timer.currentTime = 0;
 
             foreach (GameObject crystal_obj in crystals_stored)
             {
@@ -115,7 +124,7 @@ public class Player : MonoBehaviour
     void UpdateBase()
     {
         crystals_base += crystals;
-        crystals_left = CRYSTALS_TOTAL - crystals_base;
+        crystals_left = Crystal.crystal_count - crystals_base;
         crystals = 0;
         crystals_stored = new List<GameObject>();
     }

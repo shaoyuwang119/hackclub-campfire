@@ -6,7 +6,7 @@ public class Timer : MonoBehaviour
     [SerializeField]
     TMP_Text time;
 
-    float currentTime = 0;
+    public static float currentTime = 0;
 
     void Update()
     {
