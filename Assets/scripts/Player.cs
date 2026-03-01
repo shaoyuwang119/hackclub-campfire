@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
         crystals = 0;
         crystals_stored = new List<GameObject>();
 
-        if (crystals_left == 10)
+        if (crystals_left == 0)
             Win();
     }
 
